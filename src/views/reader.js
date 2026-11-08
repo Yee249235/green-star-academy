@@ -1,10 +1,10 @@
 import { html, mount } from './dom.js';
 import { icons } from './icons.js';
-import { getSubject, getChapter, getPages, hasContent } from '../content/index.js';
-import { getLang, onLangChange, setLastPosition } from '../data/prefs.js';
+import { getSubject, getChapter, getPages, hasContent, pageKey } from '../content/index.js';
+import { getLang, setLang, onLangChange, setLastPosition } from '../data/prefs.js';
 import { add, dayKey, subscribe } from '../data/store.js';
-import { cardStats, cardAttempts, readCount } from '../learning/progress.js';
-import { gainPerCorrect, countedToday } from '../learning/stars.js';
+import { cardStats, cardAttempts, readCount, isVisited } from '../learning/progress.js';
+import { gainPerCorrect, gainPerHinted, countedToday } from '../learning/stars.js';
 import { href, go } from '../router.js';
 import { renderPage, RESULT_LABEL } from './components/pages.js';
 import { attachFlipper } from './components/flipper.js';
@@ -95,6 +95,9 @@ export function renderReader(app, route) {
 
     go(href('read', subject.id, chapter.id, index + 1), { replace: true });
     setLastPosition(subject.id, chapter.id, index + 1);
+    // 自动记录「翻到过这一页」（每页只记一次，用于翻阅进度）
+    const key = pageKey(subject.id, chapter.id, pages[index]);
+    if (!isVisited(key)) add('reads', { targetId: `page:${key}`, kind: 'visit', pageKey: key });
     if (dir !== 0) window.scrollTo({ top: 0 });
     else window.scrollTo({ top: scrollY });
   }
@@ -134,7 +137,11 @@ export function renderReader(app, route) {
     } else if (result === 'wrong') {
       feedback = after < before ? `已记录「做错」，星星 −${before - after}。多练几次就能补回来。` : '已记录「做错」。';
     } else {
-      feedback = '已记录「看提示后做对」：计入练习次数，不加星。';
+      const unit = gainPerHinted(card.exercises.length);
+      feedback =
+        after > before
+          ? `已记录「看提示后做对」，星星 +${after - before}（本题 +${unit}，是独立做对的一半）。`
+          : `已记录「看提示后做对」。本卡今天已经加满 1 颗星，或已满 5 颗。`;
     }
     exState.set(ex.id, { ...(exState.get(ex.id) ?? {}), revealed: true, feedback });
     show(index, 0, { pop: after > before });
@@ -146,6 +153,11 @@ export function renderReader(app, route) {
     if (jump) {
       const target = Number(jump.dataset.goto);
       if (target >= 0) show(target, 1);
+      return;
+    }
+    const langBtn = e.target.closest('[data-lang]');
+    if (langBtn) {
+      setLang(langBtn.dataset.lang); // onLangChange 会重新渲染本页
       return;
     }
     const page = pages[index];

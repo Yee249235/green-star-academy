@@ -6,6 +6,7 @@ import { href } from '../../router.js';
 import { nextChapter, knowledgeIndex, chapterSections } from '../../content/index.js';
 import { displayMath, rich } from '../../math/render.js';
 import { starRow } from './stars.js';
+import { langSwitch } from './lang-switch.js';
 import { cardStats, readCount, knowledgeStats } from '../../learning/progress.js';
 
 const LANG_ATTR = { zh: 'zh-CN', ja: 'ja', en: 'en' };
@@ -86,7 +87,7 @@ function formulaPage({ page }) {
   const st = cardStats(f.id);
   return html`<article class="card formula" data-read-target="${f.id}">
     <div class="card-kind"><span class="kind">公式卡</span>${sectionTag(page)}${partLabel ? html`<span>${partLabel}</span>` : ''}<span class="read-count">已读 ${readCount(f.id)} 次</span></div>
-    <div class="card-progress${page.pop ? ' pop' : ''}">${starRow(st.stars)}<span class="muted">练习 ${st.practiceCount} 次${st.mastered ? ' · 基本完成' : ''}</span></div>
+    <div class="card-progress${page.pop ? ' pop' : ''}">${starRow(st.stars)}<span class="muted">练习 ${st.practiceCount} 次${st.mastered ? ' · 已掌握' : ''}</span></div>
     ${nameBlock(f.name)}
     ${first ? html`${f.formula ? displayMath(f.formula) : ''}${section('适用条件', list(f.conditions))}${section('使用场景', list(f.scenarios))}` : ''}
     ${second ? html`${section('计算步骤', list(f.steps, true))}${section('易错点', list(f.pitfalls))}${section('关联知识点', relatedKnowledge(f.knowledge))}` : ''}
@@ -103,10 +104,13 @@ function exercisePage({ page, lang, state }) {
   const q = ex.question?.[lang] ?? ex.question?.zh ?? '';
   const s = state ?? {};
   return html`<article class="card exercise">
-    <div class="card-kind">
-      <span class="kind">例题 ${page.index + 1} / ${page.total}</span>
-      <span>${f.name.zh}</span>
-      <span class="badge">难度：${ex.difficulty}</span>
+    <div class="ex-top">
+      <div class="card-kind">
+        <span class="kind">例题 ${page.index + 1} / ${page.total}</span>
+        <span>${f.name.zh}</span>
+        <span class="badge">难度：${ex.difficulty}</span>
+      </div>
+      ${langSwitch(lang)}
     </div>
     <div class="card-progress${page.pop ? ' pop' : ''}">${starRow(st.stars, { size: 15 })}<span class="muted">本卡练习 ${st.practiceCount} 次</span></div>
     <p class="question" lang="${LANG_ATTR[lang]}">${rich(q)}</p>

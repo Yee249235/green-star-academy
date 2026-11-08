@@ -57,3 +57,11 @@ export function nextChapter(subjectId, chapterId) {
   const i = subject.chapters.findIndex((c) => c.id === chapterId);
   return subject.chapters[i + 1] ?? null;
 }
+
+/** 页面的稳定标识（用于记录「翻到过哪些页」）：内容增删时页码会变，但卡片 id 不变 */
+export function pageKey(subjectId, chapterId, page) {
+  let k;
+  if (page.type === 'overview' || page.type === 'end') k = page.type;
+  else k = page.item.id + (page.part ? `#${page.part}` : '');
+  return `${subjectId}/${chapterId}/${k}`;
+}

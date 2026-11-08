@@ -1,6 +1,5 @@
 import { html, mount } from '../dom.js';
 import { icons } from '../icons.js';
-import { getLang, setLang, onLangChange } from '../../data/prefs.js';
 import * as timer from '../../learning/timer.js';
 import { getSyncStatus, onSyncStatus } from '../../data/sync.js';
 import { dialog } from './toast.js';
@@ -15,22 +14,6 @@ const NAV = [
 const PAUSE_ICON = '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>';
 const PLAY_ICON = '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10-6.5z" fill="currentColor"/></svg>';
 
-const LANG_LABELS = [
-  { id: 'zh', label: '中', title: '题干：中文' },
-  { id: 'ja', label: '日', title: '題文：日本語' },
-  { id: 'en', label: '英', title: 'Problem: English' },
-];
-
-function langSwitch() {
-  const current = getLang();
-  return html`<div class="lang-switch" role="group" aria-label="题干语言">
-    ${LANG_LABELS.map(
-      (l) =>
-        html`<button type="button" data-lang="${l.id}" title="${l.title}" aria-pressed="${String(l.id === current)}">${l.label}</button>`,
-    )}
-  </div>`;
-}
-
 export function renderTopbar() {
   const topbar = document.getElementById('topbar');
   mount(
@@ -44,15 +27,12 @@ export function renderTopbar() {
         ${NAV.map((n) => html`<a href="${n.hash}" data-nav="${n.name}">${n.label}</a>`)}
       </nav>
       <div class="topbar-tools">
-        <span class="lang-slot">${langSwitch()}</span>
         <span class="timer-slot"></span>
         <a class="sync-dot" href="#/settings"></a>
       </div>`,
   );
 
   topbar.addEventListener('click', async (e) => {
-    const btn = e.target.closest('[data-lang]');
-    if (btn) setLang(btn.dataset.lang);
     const t = e.target.closest('[data-timer]')?.dataset.timer;
     if (t === 'start') timer.start();
     if (t === 'pause') timer.pause();
@@ -100,9 +80,6 @@ export function renderTopbar() {
   };
   onSyncStatus(renderSync);
   renderSync(getSyncStatus());
-  onLangChange(() => {
-    mount(topbar.querySelector('.lang-slot'), langSwitch());
-  });
 
   const tabbar = document.getElementById('tabbar');
   mount(

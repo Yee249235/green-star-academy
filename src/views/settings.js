@@ -23,7 +23,7 @@ function syncCard() {
 
 export function renderSettings(app) {
   const last = lastBackupAt();
-  const counts = `练习记录 ${all('attempts').length} 条 · 阅读记录 ${all('reads').length} 条 · 学习时段 ${all('sessions').length} 条`;
+  const counts = `练习记录 ${all('attempts').length} 条 · 阅读记录 ${all('reads').filter((r) => r.kind !== 'visit').length} 条 · 翻阅页数 ${all('reads').filter((r) => r.kind === 'visit').length} 页 · 学习时段 ${all('sessions').length} 条`;
 
   const draw = () =>
     mount(
@@ -56,7 +56,9 @@ export function renderSettings(app) {
           <ul>
             <li>翻页：手机左右滑动；电脑点两侧圆形按钮或按键盘 ← →。</li>
             <li>例题：先自己算，再点「查看答案与解析」，最后选择「做错 / 看提示后做对 / 独立做对」。</li>
-            <li>星星：每道题每天只有第一次自评计入；一张卡每天最多 +1 颗，做错 −0.5，3 颗为基本完成，最多 5 颗。</li>
+            <li>星星：独立做对 +1（卡上有多道例题时每道 +0.5）；看提示 / 看解析后做对是它的一半；做错 −0.5。每道题每天只有第一次自评计入，一张卡每天最多 +1 颗，最多 5 颗。</li>
+            <li>完成度：做题完成度按星星算，一张卡 3 颗星就算这张卡做完；阅读完成度看知识点卡、公式卡有没有双击记过阅读；综合完成度 = 做题 70% + 阅读 30%。翻阅进度自动记录翻到过的页。</li>
+            <li>学习时长：计时会按你所在的那本书分别累计；在首页、设置页时记在上一次所在的书上。</li>
             <li>阅读次数：在知识点卡或公式卡上双击（手机双点）记一次。</li>
             <li>计时：顶栏「开始学习」→ 暂停 / 继续 →「结束」。忘记结束也不会丢时间。</li>
           </ul>

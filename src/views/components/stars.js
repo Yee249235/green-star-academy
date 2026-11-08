@@ -16,7 +16,7 @@ function oneStar(fill, size) {
 export function starRow(stars, { size = 18, label = true } = {}) {
   let out = '';
   for (let i = 0; i < MAX_STARS; i++) out += oneStar(Math.max(0, Math.min(1, stars - i)), size);
-  const text = Number.isInteger(stars) ? String(stars) : stars.toFixed(1);
+  const text = String(Number(stars.toFixed(2)));
   return raw(
     `<span class="stars" role="img" aria-label="${text} / ${MAX_STARS} 颗星">${out}${
       label ? `<span class="stars-num">${text}</span>` : ''

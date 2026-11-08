@@ -1,6 +1,7 @@
 import { html, mount } from './dom.js';
 import { getSubject, hasContent } from '../content/index.js';
 import { getTab, setTab } from '../data/prefs.js';
+import { setSubject } from '../learning/timer.js';
 import { href, go } from '../router.js';
 import { subjectTabs } from './components/subject-tabs.js';
 import { nameInline } from './components/names.js';
@@ -8,6 +9,7 @@ import { nameInline } from './components/names.js';
 export function renderToc(app, route) {
   const subject = getSubject(route.subjectId) ?? getSubject(getTab('toc', 'calc'));
   setTab('toc', subject.id);
+  setSubject(subject.id);
 
   mount(
     app,

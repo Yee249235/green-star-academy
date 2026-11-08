@@ -364,3 +364,111 @@ a.chapter-row:hover {
   font-size: 13px;
   margin: -8px 0 16px;
 }
+
+/* 例题卡顶部：左边是题号等信息，右上角是题干语言切换 */
+.ex-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.ex-top .card-kind {
+  margin-bottom: 0;
+  min-width: 0;
+}
+.ex-top .lang-switch {
+  flex: none;
+}
+.ex-top .lang-switch button {
+  min-width: 30px;
+  height: 26px;
+  padding: 0 7px;
+  font-size: 13px;
+}
+
+/* 首页：每本书一张卡 */
+.stat-row.two {
+  grid-template-columns: repeat(2, 1fr);
+}
+.book-title {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.book-sub {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: 4px;
+  color: var(--text-3);
+  font-size: 13px;
+}
+.book-sub span:first-child {
+  color: var(--mint);
+}
+.book-time {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+.book-time > div {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  background: var(--surface-2, rgba(255, 255, 255, 0.03));
+  border: 1px solid var(--border);
+}
+.book-time .label {
+  font-size: 12px;
+  color: var(--text-3);
+}
+.book-time .value {
+  font-size: 16px;
+  font-weight: 650;
+  margin-top: 2px;
+}
+.book-progress {
+  margin-top: 14px;
+}
+.book-progress .row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--text-2);
+}
+.book-progress .row strong {
+  color: var(--mint);
+}
+.book-progress .row.small {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--text-3);
+}
+.book-where {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--text-2);
+}
+
+/* 进度页：完成度说明 */
+.progress-legend {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.7;
+}
+.progress-legend b {
+  color: var(--text);
+}
+.stat .sub {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--text-3);
+}

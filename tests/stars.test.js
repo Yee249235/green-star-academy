@@ -35,10 +35,17 @@ test('做错 −0.5，不低于 0', () => {
   assert.equal(r.stars, 1.5);
 });
 
-test('看提示后做对：只算练习，不加星', () => {
+test('看提示后做对：1 道例题的卡 +0.5', () => {
   const r = computeCardStars(1, [at('2026-11-01', 'e1', 'hinted')]);
-  assert.equal(r.stars, 0);
+  assert.equal(r.stars, 0.5);
   assert.equal(r.practiceCount, 1);
+});
+
+test('看提示后做对：多道例题的卡每道 +0.25，与独立做对合计每天最多 +1', () => {
+  assert.equal(computeCardStars(2, [at('2026-11-01', 'e1', 'hinted')]).stars, 0.25);
+  assert.equal(computeCardStars(2, [at('2026-11-01', 'e1', 'hinted'), at('2026-11-01', 'e2', 'correct')]).stars, 0.75);
+  const many = ['a', 'b', 'c'].map((e) => at('2026-11-01', e, 'correct')).concat(at('2026-11-01', 'd', 'hinted'));
+  assert.equal(computeCardStars(4, many).stars, 1);
 });
 
 test('当天先做错再做对：只按第一次（做错）计', () => {

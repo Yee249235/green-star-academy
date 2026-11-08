@@ -32,16 +32,20 @@ function route() {
   cleanup = null;
   document.body.classList.toggle('in-reader', r.name === 'read');
   setActiveNav(r.name);
+  setSubject(r.subjectId ?? null);
   cleanup = VIEWS[r.name](app, r) ?? null;
   window.scrollTo({ top: 0 });
 }
 
-import { recover, formatDuration } from './learning/timer.js';
+import { recover, formatDuration, setSubject } from './learning/timer.js';
+import { getLastPosition } from './data/prefs.js';
 import { initSync } from './data/sync.js';
 import { toast } from './views/components/toast.js';
 
 // 上次学习没有点「结束」就关闭了页面：按最后一次心跳补记
 const recovered = recover();
+// 刚打开网站时还没进入某本书：先按「上次读到的书」记账
+setSubject(getLastPosition()?.subjectId ?? null);
 
 renderTopbar();
 window.addEventListener('hashchange', route);

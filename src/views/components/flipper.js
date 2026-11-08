@@ -10,8 +10,14 @@ export function attachFlipper(stage, { onPrev, onNext }) {
 
   const onTouchStart = (e) => {
     if (e.touches.length !== 1) return;
-    // 公式框等可横向滚动的区域里滑动，不翻页
-    if (e.target.closest('.no-swipe')) {
+    // 顶栏、底部进度条、弹窗上不翻页
+    if (e.target.closest('#topbar, .reader-bar, .dialog, .toast')) {
+      start = null;
+      return;
+    }
+    // 只有真正需要横向滚动的公式框里滑动才不翻页（普通公式上照样可以翻页）
+    const box = e.target.closest('.no-swipe');
+    if (box && (box.classList.contains('is-scrollable') || box.scrollWidth > box.clientWidth + 1)) {
       start = null;
       return;
     }
@@ -45,13 +51,14 @@ export function attachFlipper(stage, { onPrev, onNext }) {
     }
   };
 
-  stage.addEventListener('touchstart', onTouchStart, { passive: true });
-  stage.addEventListener('touchend', onTouchEnd, { passive: true });
+  // 监听整个页面：题目页内容短时，卡片下方的空白处也能滑动翻页
+  document.addEventListener('touchstart', onTouchStart, { passive: true });
+  document.addEventListener('touchend', onTouchEnd, { passive: true });
   window.addEventListener('keydown', onKey);
 
   return () => {
-    stage.removeEventListener('touchstart', onTouchStart);
-    stage.removeEventListener('touchend', onTouchEnd);
+    document.removeEventListener('touchstart', onTouchStart);
+    document.removeEventListener('touchend', onTouchEnd);
     window.removeEventListener('keydown', onKey);
   };
 }
