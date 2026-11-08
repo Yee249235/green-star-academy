@@ -1,19 +1,20 @@
 // 线性代数：章节目录（以水本久《線形代数学の基礎》与考试大纲为路标）
-import { sampleMatrixOps } from './sample-matrix-ops.js';
+import { vectorsChapter, matricesChapter, matrixOpsChapter, linearSystemsChapter } from './01-04-basics.js';
+import { elementaryChapter, inverseChapter, determinantsChapter, independenceChapter } from './05-08-rank-det.js';
 
 export const linearAlgebra = {
   id: 'la',
   name: { zh: '线性代数', ja: '線形代数', kana: 'せんけいだいすう' },
   textbook: '水本久《線形代数学の基礎》',
   chapters: [
-    { id: 'vectors', no: 1, name: { zh: '向量', ja: 'ベクトル', kana: 'ベクトル' } },
-    { id: 'matrices', no: 2, name: { zh: '矩阵', ja: '行列', kana: 'ぎょうれつ' } },
-    { id: 'matrix-operations', no: 3, name: { zh: '矩阵运算', ja: '行列の演算', kana: 'ぎょうれつのえんざん' }, ...sampleMatrixOps },
-    { id: 'linear-systems', no: 4, name: { zh: '线性方程组', ja: '連立一次方程式', kana: 'れんりついちじほうていしき' } },
-    { id: 'elementary-operations', no: 5, name: { zh: '矩阵的基本变形', ja: '行列の基本変形', kana: 'ぎょうれつのきほんへんけい' } },
-    { id: 'inverse', no: 6, name: { zh: '逆矩阵', ja: '逆行列', kana: 'ぎゃくぎょうれつ' } },
-    { id: 'determinants', no: 7, name: { zh: '行列式', ja: '行列式', kana: 'ぎょうれつしき' } },
-    { id: 'independence', no: 8, name: { zh: '向量的线性无关与线性相关', ja: 'ベクトルの一次独立・一次従属', kana: 'ベクトルのいちじどくりつ・いちじじゅうぞく' } },
+    { id: 'vectors', no: 1, name: { zh: '向量', ja: 'ベクトル', kana: 'ベクトル' } , ...vectorsChapter },
+    { id: 'matrices', no: 2, name: { zh: '矩阵', ja: '行列', kana: 'ぎょうれつ' } , ...matricesChapter },
+    { id: 'matrix-operations', no: 3, name: { zh: '矩阵运算', ja: '行列の演算', kana: 'ぎょうれつのえんざん' }, ...matrixOpsChapter },
+    { id: 'linear-systems', no: 4, name: { zh: '线性方程组', ja: '連立一次方程式', kana: 'れんりついちじほうていしき' } , ...linearSystemsChapter },
+    { id: 'elementary-operations', no: 5, name: { zh: '矩阵的基本变形', ja: '行列の基本変形', kana: 'ぎょうれつのきほんへんけい' } , ...elementaryChapter },
+    { id: 'inverse', no: 6, name: { zh: '逆矩阵', ja: '逆行列', kana: 'ぎゃくぎょうれつ' } , ...inverseChapter },
+    { id: 'determinants', no: 7, name: { zh: '行列式', ja: '行列式', kana: 'ぎょうれつしき' } , ...determinantsChapter },
+    { id: 'independence', no: 8, name: { zh: '向量的线性无关与线性相关', ja: 'ベクトルの一次独立・一次従属', kana: 'ベクトルのいちじどくりつ・いちじじゅうぞく' } , ...independenceChapter },
     { id: 'vector-spaces', no: 9, name: { zh: '向量空间', ja: 'ベクトル空間', kana: 'ベクトルくうかん' } },
     { id: 'basis-dimension', no: 10, name: { zh: '基底与维数', ja: '基底と次元', kana: 'きていとじげん' } },
     { id: 'linear-maps', no: 11, name: { zh: '线性映射', ja: '線形写像', kana: 'せんけいしゃぞう' } },
