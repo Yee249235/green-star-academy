@@ -11,6 +11,8 @@ import { multivariableChapter } from './08-multivariable.js';
 import { partialChapter } from './09-partial.js';
 import { totalDifferentialChapter } from './10-total-differential.js';
 import { extremaChapter } from './11-extrema.js';
+import { multipleIntegralsChapter } from './12-multiple-integrals.js';
+import { changeOfVariablesChapter } from './13-change-of-variables.js';
 
 export const calculus = {
   id: 'calc',
@@ -28,8 +30,8 @@ export const calculus = {
     { id: 'partial', no: 9, name: { zh: '偏微分', ja: '偏微分', kana: 'へんびぶん' }, ...partialChapter },
     { id: 'total-differential', no: 10, name: { zh: '全微分', ja: '全微分', kana: 'ぜんびぶん' }, ...totalDifferentialChapter },
     { id: 'extrema', no: 11, name: { zh: '多变量函数的极值', ja: '多変数関数の極値', kana: 'たへんすうかんすうのきょくち' }, ...extremaChapter },
-    { id: 'multiple-integrals', no: 12, name: { zh: '重积分', ja: '重積分', kana: 'じゅうせきぶん' } },
-    { id: 'change-of-variables', no: 13, name: { zh: '变量变换', ja: '変数変換', kana: 'へんすうへんかん' } },
+    { id: 'multiple-integrals', no: 12, name: { zh: '重积分', ja: '重積分', kana: 'じゅうせきぶん' }, ...multipleIntegralsChapter },
+    { id: 'change-of-variables', no: 13, name: { zh: '变量变换', ja: '変数変換', kana: 'へんすうへんかん' }, ...changeOfVariablesChapter },
     { id: 'improper-integrals', no: 14, name: { zh: '广义积分', ja: '広義積分', kana: 'こうぎせきぶん' } },
     { id: 'ode', no: 15, name: { zh: '微分方程基础', ja: '微分方程式の基礎', kana: 'びぶんほうていしきのきそ' } },
   ],

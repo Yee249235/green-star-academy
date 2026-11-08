@@ -25,9 +25,11 @@ n = sp.Symbol('n', positive=True)
 a = sp.Symbol('a', real=True)
 r = sp.Symbol('r', positive=True)
 theta, u, v, w, s, m, lam = sp.symbols('theta u v w s m lambda', real=True)
+phi, rho = sp.symbols('phi rho', real=True)
+C1, C2, C = sp.symbols('C1 C2 C')
 f_ = sp.Function('f')
 y_ = sp.Function('y')
-NS = {'r': r, 'theta': theta, 'u': u, 'v': v, 'w': w, 's': s, 'm': m, 'lam': lam, 'f': f_, 'Matrix': sp.Matrix, 'Rational': sp.Rational, 'x': x, 'y': y, 'z': z, 't': t, 'k': k, 'n': n, 'a': a, 'e': sp.E, 'E': sp.E, 'pi': sp.pi, 'oo': sp.oo}
+NS = {'phi': phi, 'rho': rho, 'C1': C1, 'C2': C2, 'C': C, 'r': r, 'theta': theta, 'u': u, 'v': v, 'w': w, 's': s, 'm': m, 'lam': lam, 'f': f_, 'Matrix': sp.Matrix, 'Rational': sp.Rational, 'x': x, 'y': y, 'z': z, 't': t, 'k': k, 'n': n, 'a': a, 'e': sp.E, 'E': sp.E, 'pi': sp.pi, 'oo': sp.oo}
 
 
 def S(s):
