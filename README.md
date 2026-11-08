@@ -27,7 +27,7 @@ npm run build    # 构建到 dist/
 - [x] 阶段一：需求分析与技术架构
 - [x] 阶段二：视觉与页面框架（当前为示例内容）
 - [x] 阶段三：公式渲染系统（KaTeX）
-- [ ] 阶段四：数学内容系统
+- [~] 阶段四：数学内容系统（第 1 章「极限」样板已完成）
 - [ ] 阶段五：公式记忆与例题训练
 - [ ] 阶段六：星星与学习进度
 - [ ] 阶段七：学习计时与云同步
@@ -40,3 +40,14 @@ npm run build    # 构建到 dist/
 - 正文、条件、题干中的行内公式用 `$…$`；普通美元符号写 `\$`。
 - 长公式写成多行 `aligned` / `gathered`，保证手机上不需要横向滑动。
 - `npm run build` 会先运行 `scripts/check-latex.js`，任何一条公式出错，构建和发布都会中止。
+
+## 内容质量检查
+
+| 命令 | 作用 |
+| --- | --- |
+| `npm run check:content` | 字段完整、ID 唯一、知识点引用存在、题干中日英齐全、已发布 ID 不消失 |
+| `npm run check:latex` | KaTeX 严格模式渲染全部公式 |
+| `npm run verify` | SymPy 独立验算每道例题的标准答案（需要 Python 与 sympy） |
+
+GitHub Actions 发布前会依次运行以上三项，任何一项失败都不会发布。
+新增例题后运行 `node scripts/check-content.js --update` 登记 ID。

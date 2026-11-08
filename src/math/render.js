@@ -39,7 +39,7 @@ export function rich(text) {
   if (text == null) return raw('');
   const out = splitInlineMath(String(text))
     .map((p) => {
-      if (p.type === 'text') return esc(p.value);
+      if (p.type === 'text') return esc(p.value).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
       if (p.type === 'math') return toHtml(p.value, false);
       return errorBox('$' + p.value, new Error('缺少结尾的 $'), false);
     })

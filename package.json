@@ -1,12 +1,14 @@
 {
   "name": "green-star-academy",
   "private": true,
-  "version": "0.3.0",
+  "version": "0.4.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "check:content": "node scripts/check-content.js",
     "check:latex": "node scripts/check-latex.js",
-    "build": "node scripts/check-latex.js && vite build",
+    "verify": "node scripts/export-verify.js | python3 scripts/verify/verify.py",
+    "build": "node scripts/check-content.js && node scripts/check-latex.js && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {

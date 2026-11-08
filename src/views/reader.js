@@ -102,15 +102,23 @@ export function renderReader(app, route) {
     if (target !== index) show(target, target > index ? 1 : -1);
   });
 
-  // 例题：展开 / 收起答案
   stage.addEventListener('click', (e) => {
+    // 概览页：点击条目跳转
+    const jump = e.target.closest('[data-goto]');
+    if (jump) {
+      const target = Number(jump.dataset.goto);
+      if (target >= 0) show(target, 1);
+      return;
+    }
+    // 例题：展开 / 收起答案
     const btn = e.target.closest('[data-action="toggle-answer"]');
     if (!btn) return;
     const box = btn.nextElementSibling;
     const open = box.hidden;
     box.hidden = !open;
     btn.setAttribute('aria-expanded', String(open));
-    btn.textContent = open ? '收起答案' : '查看答案';
+    btn.textContent = open ? '收起答案' : '查看答案与解析';
+    if (open) fitMath(box);
   });
 
   const detachFlipper = attachFlipper(stage, { onPrev: prev, onNext: next });

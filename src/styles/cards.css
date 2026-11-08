@@ -110,12 +110,97 @@
   margin-top: 22px;
 }
 .answer {
-  margin-top: 16px;
-  padding: 16px 18px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+.answer-head {
+  font-size: 13px;
+  color: var(--mint);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+.answer-box {
+  padding: 10px 14px;
   border-radius: var(--radius);
-  border: 1px dashed var(--border-strong);
-  color: var(--text-2);
+  background: var(--mint-soft);
+  border: 1px solid var(--mint-line);
+}
+.answer-box p {
+  margin: 4px 0;
+}
+.sol-text {
+  margin: 10px 0 4px;
+}
+.card-sec .math-display {
+  margin: 4px 0;
+}
+
+/* 关联知识点 */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  font-size: 14px;
+}
+.chip [lang='ja'] {
+  color: var(--text-3);
+  font-size: 12px;
+}
+
+/* 概览页的跳转列表 */
+.jump-list {
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+.jump-list li + li {
+  margin-top: 2px !important;
+}
+.jump-list button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  color: var(--text);
   font-size: 15px;
+}
+.jump-list button:hover {
+  background: var(--surface-2);
+}
+.jump-list .tag {
+  flex: none;
+  font-size: 11px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  color: var(--text-3);
+}
+.jump-list .tag.mint {
+  border-color: var(--mint-line);
+  color: var(--mint);
+}
+.jump-list .count {
+  margin-left: auto;
+  flex: none;
+  font-size: 12px;
+  color: var(--text-3);
 }
 
 .sample-banner {

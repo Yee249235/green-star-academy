@@ -10,7 +10,8 @@ import { katexOptions, splitInlineMath } from '../src/math/katex-config.js';
 import { subjects } from '../src/content/index.js';
 import { mathTestGroups, mathTestInline } from '../src/math/test-cases.js';
 
-const DISPLAY_KEYS = new Set(['formula', 'display', 'tex']);
+const DISPLAY_KEYS = new Set(['formula', 'display', 'tex', 'answer', 'math', 'definitions']);
+const SKIP_KEYS = new Set(['verify', 'id']);
 
 const errors = [];
 let count = 0;
@@ -41,6 +42,7 @@ function walk(node, path, displayKey = false) {
     if (node.expectError) return;
     const label = node.id ? `${path}〈${node.id}〉` : path;
     for (const [k, v] of Object.entries(node)) {
+      if (SKIP_KEYS.has(k)) continue;
       walk(v, `${label}.${k}`, DISPLAY_KEYS.has(k));
     }
   }

@@ -1,13 +1,13 @@
 // 微分积分：章节目录（以石原・浅野《理工系の基礎 微分積分 増補版》与考试大纲为路标）
 // 每章的知识点、公式卡、例题从阶段四开始写入各章文件。
-import { sampleLimits } from './sample-limits.js';
+import { limitsChapter } from './01-limits/index.js';
 
 export const calculus = {
   id: 'calc',
   name: { zh: '微分积分', ja: '微分積分', kana: 'びぶんせきぶん' },
   textbook: '石原繁・浅野重初《理工系の基礎 微分積分 増補版》',
   chapters: [
-    { id: 'limits', no: 1, name: { zh: '数列与函数的极限', ja: '数列と関数の極限', kana: 'すうれつとかんすうのきょくげん' }, ...sampleLimits },
+    { id: 'limits', no: 1, name: { zh: '数列与函数的极限', ja: '数列と関数の極限', kana: 'すうれつとかんすうのきょくげん' }, ...limitsChapter },
     { id: 'derivatives', no: 2, name: { zh: '微分法', ja: '微分法', kana: 'びぶんほう' } },
     { id: 'composite-inverse-higher', no: 3, name: { zh: '合成函数、逆函数、高阶导数', ja: '合成関数・逆関数・高次導関数', kana: 'ごうせいかんすう・ぎゃくかんすう・こうじどうかんすう' } },
     { id: 'taylor', no: 4, name: { zh: 'Taylor 展开', ja: 'テイラー展開', kana: 'テイラーてんかい' } },

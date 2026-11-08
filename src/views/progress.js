@@ -1,5 +1,5 @@
 import { html, mount } from './dom.js';
-import { getSubject } from '../content/index.js';
+import { getSubject, chapterFormulas } from '../content/index.js';
 import { getTab, setTab } from '../data/prefs.js';
 import { href, go } from '../router.js';
 import { subjectTabs } from './components/subject-tabs.js';
@@ -8,7 +8,7 @@ import { nameInline } from './components/names.js';
 export function renderProgress(app, route) {
   const subject = getSubject(route.subjectId) ?? getSubject(getTab('progress', 'calc'));
   setTab('progress', subject.id);
-  const cardCount = subject.chapters.reduce((n, c) => n + (c.sample ? 0 : (c.formulas?.length ?? 0)), 0);
+  const cardCount = subject.chapters.reduce((n, c) => n + (c.sample ? 0 : chapterFormulas(c).length), 0);
 
   mount(
     app,
