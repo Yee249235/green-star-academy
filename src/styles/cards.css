@@ -1,0 +1,275 @@
+/* ---------- 卡片层级 ----------
+   公式卡：薄荷绿边框，最醒目
+   知识点卡：普通边框
+   例题卡：略深的底色
+*/
+.card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-l);
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+.card + .card {
+  margin-top: 16px;
+}
+.card.formula {
+  border: 1.5px solid var(--mint-line);
+  background: linear-gradient(180deg, rgba(126, 224, 181, 0.05), rgba(126, 224, 181, 0) 120px), var(--surface);
+}
+.card.exercise {
+  background: var(--surface-2);
+}
+
+.card-kind {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
+.card-kind .kind {
+  color: var(--mint);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.card-title {
+  font-size: 24px;
+  font-weight: 700;
+}
+.card-subtitle {
+  margin-top: 4px;
+  color: var(--text-2);
+  font-size: 16px;
+}
+.card-subtitle .kana {
+  color: var(--text-3);
+  font-size: 14px;
+  margin-left: 6px;
+}
+
+.card-sec {
+  margin-top: 22px;
+}
+.card-sec h3 {
+  font-size: 13px;
+  color: var(--mint);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+.card-sec ul,
+.card-sec ol {
+  margin: 0;
+  padding-left: 1.3em;
+  color: var(--text);
+}
+.card-sec li + li {
+  margin-top: 4px;
+}
+.card-sec p + p {
+  margin-top: 10px;
+}
+
+/* 公式框：阶段三起放 KaTeX 渲染结果；在框内横向滚动，不触发翻页 */
+.formula-box {
+  margin-top: 20px;
+  padding: 18px 20px;
+  border-radius: var(--radius);
+  background: var(--formula-bg);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--mint);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+.formula-box.placeholder {
+  color: var(--text-3);
+  font-size: 14px;
+  text-align: center;
+  border-style: dashed;
+  border-left-style: solid;
+}
+
+/* 例题 */
+.question {
+  font-size: 17px;
+  line-height: 1.85;
+}
+.answer-toggle {
+  margin-top: 22px;
+}
+.answer {
+  margin-top: 16px;
+  padding: 16px 18px;
+  border-radius: var(--radius);
+  border: 1px dashed var(--border-strong);
+  color: var(--text-2);
+  font-size: 15px;
+}
+
+.sample-banner {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(240, 179, 107, 0.35);
+  background: rgba(240, 179, 107, 0.07);
+  color: var(--warn);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ---------- 首页科目卡 ---------- */
+.subject-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 560px) {
+  .subject-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.subject-card {
+  display: block;
+  padding: 20px;
+  border-radius: var(--radius-l);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.subject-card:hover {
+  border-color: var(--mint-line);
+  transform: translateY(-1px);
+}
+.subject-card .ja {
+  color: var(--text-2);
+  font-size: 14px;
+}
+.subject-card .name {
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+.subject-card .meta {
+  margin-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-3);
+  font-size: 13px;
+}
+
+.bar {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  overflow: hidden;
+  margin-top: 8px;
+}
+.bar > span {
+  display: block;
+  height: 100%;
+  background: var(--mint);
+  border-radius: inherit;
+}
+
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.stat {
+  padding: 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.stat .label {
+  color: var(--text-3);
+  font-size: 13px;
+}
+.stat .value {
+  font-size: 22px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+/* ---------- 目录 / 进度的章节列表 ---------- */
+.chapter-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-l);
+  background: var(--surface);
+  overflow: hidden;
+}
+.chapter-list li + li {
+  border-top: 1px solid var(--border);
+}
+.chapter-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  color: var(--text);
+}
+a.chapter-row:hover {
+  background: var(--surface-2);
+}
+.chapter-no {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 650;
+  color: var(--mint);
+  border: 1px solid var(--mint-line);
+}
+.chapter-text {
+  flex: 1;
+  min-width: 0;
+}
+.chapter-text .zh {
+  font-weight: 600;
+}
+.chapter-text .ja {
+  color: var(--text-2);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.chapter-text .ja .kana {
+  color: var(--text-3);
+  margin-left: 4px;
+}
+.chapter-row .right {
+  flex: none;
+  text-align: right;
+}
+.chapter-row .pct {
+  font-size: 13px;
+  color: var(--text-3);
+}
+.chapter-row .mini-bar {
+  width: 72px;
+}
+.chapter-row .mini-bar .bar {
+  margin-top: 4px;
+}
+
+.textbook {
+  color: var(--text-3);
+  font-size: 13px;
+  margin: -8px 0 16px;
+}

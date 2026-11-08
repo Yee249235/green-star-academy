@@ -1,0 +1,206 @@
+/* ---------- 章节阅读器 ---------- */
+.reader-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  color: var(--text-3);
+  font-size: 14px;
+  min-width: 0;
+}
+.reader-head a {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-2);
+}
+.reader-head .crumb {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stage {
+  position: relative;
+  touch-action: pan-y; /* 竖向滚动交给浏览器，横向滑动由翻页器处理 */
+}
+.stage-page.anim-next {
+  animation: page-in-next 0.24s ease-out;
+}
+.stage-page.anim-prev {
+  animation: page-in-prev 0.24s ease-out;
+}
+@keyframes page-in-next {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+}
+@keyframes page-in-prev {
+  from {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+}
+
+/* 两侧圆形翻页按钮：只在有鼠标的设备上显示 */
+.flip-btn {
+  position: fixed;
+  top: 50%;
+  z-index: 15;
+  width: 52px;
+  height: 52px;
+  margin-top: -26px;
+  border-radius: 50%;
+  border: 1.5px solid var(--mint-line);
+  background: rgba(26, 28, 32, 0.9);
+  color: var(--mint);
+  display: none;
+  place-items: center;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+}
+.flip-btn:hover:not([disabled]) {
+  background: var(--mint-soft);
+  border-color: var(--mint);
+}
+.flip-btn[disabled] {
+  opacity: 0.25;
+  cursor: default;
+}
+.flip-btn.prev {
+  left: max(20px, calc(50% - var(--content-w) / 2 - 84px));
+}
+.flip-btn.next {
+  right: max(20px, calc(50% - var(--content-w) / 2 - 84px));
+}
+@media (hover: hover) and (pointer: fine) {
+  .flip-btn {
+    display: grid;
+  }
+}
+/* 手机宽度一律用滑动翻页，不显示按钮 */
+@media (max-width: 720px) {
+  .flip-btn {
+    display: none !important;
+  }
+}
+/* 窄屏电脑窗口：按钮贴边时给正文留出位置 */
+@media (hover: hover) and (pointer: fine) and (min-width: 721px) and (max-width: 940px) {
+  body.in-reader #app {
+    padding-left: 84px;
+    padding-right: 84px;
+    max-width: calc(var(--content-w) + 168px);
+  }
+}
+
+/* 底部章节进度条 */
+.reader-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 18;
+  padding: 10px max(16px, env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom))
+    max(16px, env(safe-area-inset-left));
+  background: rgba(18, 19, 22, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
+}
+.reader-bar-inner {
+  max-width: var(--content-w);
+  margin: 0 auto;
+}
+.reader-bar-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--text-2);
+  margin-bottom: 8px;
+}
+.reader-bar-meta .title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.reader-bar-meta .count {
+  flex: none;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+.segments {
+  display: flex;
+  gap: 3px;
+  height: 14px;
+  align-items: center;
+}
+.segments button {
+  flex: 1;
+  height: 14px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.segments button::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  transition: background 0.15s ease, height 0.15s ease;
+}
+.segments button.done::before {
+  background: var(--mint-line);
+}
+.segments button[aria-current='step']::before {
+  background: var(--mint);
+  height: 7px;
+}
+.segments button:hover::before {
+  height: 7px;
+}
+
+/* 章末页 */
+.end-card {
+  text-align: center;
+  padding: 40px 24px;
+}
+.end-card .big-star {
+  margin: 0 auto 14px;
+}
+.end-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+.swipe-hint {
+  display: none;
+  text-align: center;
+  color: var(--text-3);
+  font-size: 13px;
+  margin-top: 18px;
+}
+@media (hover: none) {
+  .swipe-hint {
+    display: block;
+  }
+}
+
+.empty-chapter {
+  text-align: center;
+  padding: 48px 24px;
+}
+.empty-chapter p {
+  color: var(--text-2);
+  margin-top: 8px;
+}
