@@ -2,6 +2,7 @@
 // 每章的知识点、公式卡、例题从阶段四开始写入各章文件。
 import { limitsChapter } from './01-limits/index.js';
 import { derivativesChapter } from './02-derivatives.js';
+import { compositeChapter } from './03-composite-inverse-higher.js';
 
 export const calculus = {
   id: 'calc',
@@ -10,7 +11,7 @@ export const calculus = {
   chapters: [
     { id: 'limits', no: 1, name: { zh: '数列与函数的极限', ja: '数列と関数の極限', kana: 'すうれつとかんすうのきょくげん' }, ...limitsChapter },
     { id: 'derivatives', no: 2, name: { zh: '微分法', ja: '微分法', kana: 'びぶんほう' }, ...derivativesChapter },
-    { id: 'composite-inverse-higher', no: 3, name: { zh: '合成函数、逆函数、高阶导数', ja: '合成関数・逆関数・高次導関数', kana: 'ごうせいかんすう・ぎゃくかんすう・こうじどうかんすう' } },
+    { id: 'composite-inverse-higher', no: 3, name: { zh: '合成函数、逆函数、高阶导数', ja: '合成関数・逆関数・高次導関数', kana: 'ごうせいかんすう・ぎゃくかんすう・こうじどうかんすう' }, ...compositeChapter },
     { id: 'taylor', no: 4, name: { zh: 'Taylor 展开', ja: 'テイラー展開', kana: 'テイラーてんかい' } },
     { id: 'applications', no: 5, name: { zh: '微分法的应用', ja: '微分法の応用', kana: 'びぶんほうのおうよう' } },
     { id: 'integrals', no: 6, name: { zh: '不定积分与定积分', ja: '不定積分と定積分', kana: 'ふていせきぶんとていせきぶん' } },
