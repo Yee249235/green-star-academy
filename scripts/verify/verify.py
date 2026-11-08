@@ -23,9 +23,11 @@ import sympy as sp
 x, y, z, t, k = sp.symbols('x y z t k', real=True)
 n = sp.Symbol('n', positive=True)
 a = sp.Symbol('a', real=True)
+r = sp.Symbol('r', positive=True)
+theta, u, v, w, s, m, lam = sp.symbols('theta u v w s m lambda', real=True)
 f_ = sp.Function('f')
 y_ = sp.Function('y')
-NS = {'f': f_, 'Matrix': sp.Matrix, 'Rational': sp.Rational, 'x': x, 'y': y, 'z': z, 't': t, 'k': k, 'n': n, 'a': a, 'e': sp.E, 'E': sp.E, 'pi': sp.pi, 'oo': sp.oo}
+NS = {'r': r, 'theta': theta, 'u': u, 'v': v, 'w': w, 's': s, 'm': m, 'lam': lam, 'f': f_, 'Matrix': sp.Matrix, 'Rational': sp.Rational, 'x': x, 'y': y, 'z': z, 't': t, 'k': k, 'n': n, 'a': a, 'e': sp.E, 'E': sp.E, 'pi': sp.pi, 'oo': sp.oo}
 
 
 def S(s):

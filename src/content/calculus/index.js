@@ -7,6 +7,8 @@ import { taylorChapter } from './04-taylor.js';
 import { applicationsChapter } from './05-applications.js';
 import { integralsChapter } from './06-integrals.js';
 import { techniquesChapter } from './07-integration-techniques.js';
+import { multivariableChapter } from './08-multivariable.js';
+import { partialChapter } from './09-partial.js';
 
 export const calculus = {
   id: 'calc',
@@ -20,8 +22,8 @@ export const calculus = {
     { id: 'applications', no: 5, name: { zh: '微分法的应用', ja: '微分法の応用', kana: 'びぶんほうのおうよう' }, ...applicationsChapter },
     { id: 'integrals', no: 6, name: { zh: '不定积分与定积分', ja: '不定積分と定積分', kana: 'ふていせきぶんとていせきぶん' }, ...integralsChapter },
     { id: 'integration-techniques', no: 7, name: { zh: '置换积分与部分积分', ja: '置換積分・部分積分', kana: 'ちかんせきぶん・ぶぶんせきぶん' }, ...techniquesChapter },
-    { id: 'multivariable', no: 8, name: { zh: '多变量函数', ja: '多変数関数', kana: 'たへんすうかんすう' } },
-    { id: 'partial', no: 9, name: { zh: '偏微分', ja: '偏微分', kana: 'へんびぶん' } },
+    { id: 'multivariable', no: 8, name: { zh: '多变量函数', ja: '多変数関数', kana: 'たへんすうかんすう' }, ...multivariableChapter },
+    { id: 'partial', no: 9, name: { zh: '偏微分', ja: '偏微分', kana: 'へんびぶん' }, ...partialChapter },
     { id: 'total-differential', no: 10, name: { zh: '全微分', ja: '全微分', kana: 'ぜんびぶん' } },
     { id: 'extrema', no: 11, name: { zh: '多变量函数的极值', ja: '多変数関数の極値', kana: 'たへんすうかんすうのきょくち' } },
     { id: 'multiple-integrals', no: 12, name: { zh: '重积分', ja: '重積分', kana: 'じゅうせきぶん' } },
