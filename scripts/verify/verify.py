@@ -111,6 +111,10 @@ def check(v):
             pass
         return f"{v['lhs']} = {lhs}，与 {v['rhs']} 不一致"
 
+    if kind == 'less':
+        lv, rv = sp.N(S(v['lhs']), 30), sp.N(S(v['rhs']), 30)
+        return None if lv < rv else f"{v['lhs']} ≈ {lv} 不小于 {v['rhs']} ≈ {rv}"
+
     if kind == 'antiderivative':
         var = NS[v.get('var', 'x')]
         d = sp.simplify(sp.diff(S(v['answer']), var) - S(v['integrand']))
