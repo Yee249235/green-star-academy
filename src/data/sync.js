@@ -146,12 +146,23 @@ export async function initSync() {
 }
 
 export async function signIn() {
-  const { authMod, auth } = await load();
+  // 手机和电脑都用弹窗登录。网站在 github.io、登录页在 firebaseapp.com，
+  // 跳转登录在 Safari / 新版 Chrome 上会因跨站存储限制丢失登录结果（跳回来仍是未登录）。
+  // Firebase 在 initSync 时已加载，这里同步取用，保证 signInWithPopup 仍在用户点击的手势内调用，不被拦截。
+  const { authMod, auth } = fb ?? (await load());
   const provider = new authMod.GoogleAuthProvider();
-  // 手机浏览器上弹窗常被拦截，改用跳转登录
-  const mobile = matchMedia('(hover: none)').matches;
-  if (mobile) await authMod.signInWithRedirect(auth, provider);
-  else await authMod.signInWithPopup(auth, provider);
+  provider.setCustomParameters({ prompt: 'select_account' });
+  try {
+    await authMod.signInWithPopup(auth, provider);
+  } catch (err) {
+    const code = err?.code ?? '';
+    if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') return;
+    if (code === 'auth/popup-blocked' || code === 'auth/operation-not-supported-in-environment') {
+      await authMod.signInWithRedirect(auth, provider);
+      return;
+    }
+    throw err;
+  }
 }
 
 export async function signOutNow() {
