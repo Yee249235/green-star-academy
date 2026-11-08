@@ -9,7 +9,10 @@
   recurrence  {a1, next(用 a 表示 a_n), expected}       数值迭代后与 expected 比较
   sequence    {formula(用 k 表示项数), a1, next, terms}  通项公式与递推逐项一致
   ivt         {f, a, b}                                端点异号且区间内确有实根
-  equal       {lhs, rhs}                               两个表达式恒等
+  equal       {lhs, rhs}                               两个表达式（或矩阵、列表）相等；lhs 可写 diff/integrate/Matrix 等计算
+  antiderivative {integrand, answer, var?}             d(answer)/dx 与被积函数恒等（不定积分）
+  ode         {ode, solution}                          用 checkodesol 检查解满足微分方程（y 写作 y(x)）
+  eigen       {matrix, values}                         特征值（含重数）一致
   all         {items: [...]}                           多项同时成立
 """
 import json
@@ -20,7 +23,9 @@ import sympy as sp
 x, y, z, t, k = sp.symbols('x y z t k', real=True)
 n = sp.Symbol('n', positive=True)
 a = sp.Symbol('a', real=True)
-NS = {'x': x, 'y': y, 'z': z, 't': t, 'k': k, 'n': n, 'a': a, 'e': sp.E, 'E': sp.E, 'pi': sp.pi, 'oo': sp.oo}
+f_ = sp.Function('f')
+y_ = sp.Function('y')
+NS = {'f': f_, 'Matrix': sp.Matrix, 'Rational': sp.Rational, 'x': x, 'y': y, 'z': z, 't': t, 'k': k, 'n': n, 'a': a, 'e': sp.E, 'E': sp.E, 'pi': sp.pi, 'oo': sp.oo}
 
 
 def S(s):
@@ -28,6 +33,15 @@ def S(s):
 
 
 def same(got, expected):
+    if isinstance(got, (list, tuple)) or isinstance(expected, (list, tuple)):
+        if not isinstance(got, (list, tuple)) or not isinstance(expected, (list, tuple)) or len(got) != len(expected):
+            return False
+        return all(same(sp.sympify(g), sp.sympify(e)) for g, e in zip(got, expected))
+    if isinstance(got, sp.MatrixBase) or isinstance(expected, sp.MatrixBase):
+        try:
+            return got.shape == expected.shape and (got - expected).applyfunc(sp.simplify).is_zero_matrix
+        except Exception:
+            return False
     if got == expected:
         return True
     if got.has(sp.oo, -sp.oo, sp.zoo, sp.nan) or expected.has(sp.oo, -sp.oo):
@@ -87,8 +101,36 @@ def check(v):
         return None
 
     if kind == 'equal':
-        diff = sp.simplify(S(v['lhs']) - S(v['rhs']))
-        return None if diff == 0 else f"{v['lhs']} 与 {v['rhs']} 不恒等（差为 {diff}）"
+        lhs, rhs = S(v['lhs']), S(v['rhs'])
+        if same(lhs, rhs):
+            return None
+        try:
+            if sp.simplify(sp.expand_log(sp.expand_trig(lhs - rhs), force=True)) == 0:
+                return None
+        except Exception:
+            pass
+        return f"{v['lhs']} = {lhs}，与 {v['rhs']} 不一致"
+
+    if kind == 'antiderivative':
+        var = NS[v.get('var', 'x')]
+        d = sp.simplify(sp.diff(S(v['answer']), var) - S(v['integrand']))
+        if d != 0:
+            d = sp.simplify(sp.trigsimp(d))
+        return None if d == 0 else f"对答案 {v['answer']} 求导与被积函数 {v['integrand']} 相差 {d}"
+
+    if kind == 'ode':
+        L = {**NS, 'y': y_}
+        ok, rest = sp.checkodesol(sp.sympify(v['ode'], locals=L), sp.sympify(v['solution'], locals=L))
+        return None if ok else f"解 {v['solution']} 不满足方程（代入后余下 {rest}）"
+
+    if kind == 'eigen':
+        got = sp.Matrix(S(v['matrix'])).eigenvals()
+        exp = {}
+        for val in v['values']:
+            e = S(val)
+            exp[e] = exp.get(e, 0) + 1
+        ok = len(got) == len(exp) and all(any(sp.simplify(g - e) == 0 and got[g] == m for g in got) for e, m in exp.items())
+        return None if ok else f"特征值应为 {got}，答案写的是 {v['values']}"
 
     return f"未知的 verify 类型：{kind}"
 
