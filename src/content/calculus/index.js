@@ -6,6 +6,7 @@ import { compositeChapter } from './03-composite-inverse-higher.js';
 import { taylorChapter } from './04-taylor.js';
 import { applicationsChapter } from './05-applications.js';
 import { integralsChapter } from './06-integrals.js';
+import { techniquesChapter } from './07-integration-techniques.js';
 
 export const calculus = {
   id: 'calc',
@@ -18,7 +19,7 @@ export const calculus = {
     { id: 'taylor', no: 4, name: { zh: 'Taylor 展开', ja: 'テイラー展開', kana: 'テイラーてんかい' }, ...taylorChapter },
     { id: 'applications', no: 5, name: { zh: '微分法的应用', ja: '微分法の応用', kana: 'びぶんほうのおうよう' }, ...applicationsChapter },
     { id: 'integrals', no: 6, name: { zh: '不定积分与定积分', ja: '不定積分と定積分', kana: 'ふていせきぶんとていせきぶん' }, ...integralsChapter },
-    { id: 'integration-techniques', no: 7, name: { zh: '置换积分与部分积分', ja: '置換積分・部分積分', kana: 'ちかんせきぶん・ぶぶんせきぶん' } },
+    { id: 'integration-techniques', no: 7, name: { zh: '置换积分与部分积分', ja: '置換積分・部分積分', kana: 'ちかんせきぶん・ぶぶんせきぶん' }, ...techniquesChapter },
     { id: 'multivariable', no: 8, name: { zh: '多变量函数', ja: '多変数関数', kana: 'たへんすうかんすう' } },
     { id: 'partial', no: 9, name: { zh: '偏微分', ja: '偏微分', kana: 'へんびぶん' } },
     { id: 'total-differential', no: 10, name: { zh: '全微分', ja: '全微分', kana: 'ぜんびぶん' } },
