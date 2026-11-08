@@ -5,6 +5,7 @@ import { derivativesChapter } from './02-derivatives.js';
 import { compositeChapter } from './03-composite-inverse-higher.js';
 import { taylorChapter } from './04-taylor.js';
 import { applicationsChapter } from './05-applications.js';
+import { integralsChapter } from './06-integrals.js';
 
 export const calculus = {
   id: 'calc',
@@ -16,7 +17,7 @@ export const calculus = {
     { id: 'composite-inverse-higher', no: 3, name: { zh: '合成函数、逆函数、高阶导数', ja: '合成関数・逆関数・高次導関数', kana: 'ごうせいかんすう・ぎゃくかんすう・こうじどうかんすう' }, ...compositeChapter },
     { id: 'taylor', no: 4, name: { zh: 'Taylor 展开', ja: 'テイラー展開', kana: 'テイラーてんかい' }, ...taylorChapter },
     { id: 'applications', no: 5, name: { zh: '微分法的应用', ja: '微分法の応用', kana: 'びぶんほうのおうよう' }, ...applicationsChapter },
-    { id: 'integrals', no: 6, name: { zh: '不定积分与定积分', ja: '不定積分と定積分', kana: 'ふていせきぶんとていせきぶん' } },
+    { id: 'integrals', no: 6, name: { zh: '不定积分与定积分', ja: '不定積分と定積分', kana: 'ふていせきぶんとていせきぶん' }, ...integralsChapter },
     { id: 'integration-techniques', no: 7, name: { zh: '置换积分与部分积分', ja: '置換積分・部分積分', kana: 'ちかんせきぶん・ぶぶんせきぶん' } },
     { id: 'multivariable', no: 8, name: { zh: '多变量函数', ja: '多変数関数', kana: 'たへんすうかんすう' } },
     { id: 'partial', no: 9, name: { zh: '偏微分', ja: '偏微分', kana: 'へんびぶん' } },
