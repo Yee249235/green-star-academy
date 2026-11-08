@@ -13,6 +13,8 @@ import { totalDifferentialChapter } from './10-total-differential.js';
 import { extremaChapter } from './11-extrema.js';
 import { multipleIntegralsChapter } from './12-multiple-integrals.js';
 import { changeOfVariablesChapter } from './13-change-of-variables.js';
+import { improperChapter } from './14-improper-integrals.js';
+import { odeChapter } from './15-ode.js';
 
 export const calculus = {
   id: 'calc',
@@ -32,7 +34,7 @@ export const calculus = {
     { id: 'extrema', no: 11, name: { zh: '多变量函数的极值', ja: '多変数関数の極値', kana: 'たへんすうかんすうのきょくち' }, ...extremaChapter },
     { id: 'multiple-integrals', no: 12, name: { zh: '重积分', ja: '重積分', kana: 'じゅうせきぶん' }, ...multipleIntegralsChapter },
     { id: 'change-of-variables', no: 13, name: { zh: '变量变换', ja: '変数変換', kana: 'へんすうへんかん' }, ...changeOfVariablesChapter },
-    { id: 'improper-integrals', no: 14, name: { zh: '广义积分', ja: '広義積分', kana: 'こうぎせきぶん' } },
-    { id: 'ode', no: 15, name: { zh: '微分方程基础', ja: '微分方程式の基礎', kana: 'びぶんほうていしきのきそ' } },
+    { id: 'improper-integrals', no: 14, name: { zh: '广义积分', ja: '広義積分', kana: 'こうぎせきぶん' }, ...improperChapter },
+    { id: 'ode', no: 15, name: { zh: '微分方程基础', ja: '微分方程式の基礎', kana: 'びぶんほうていしきのきそ' }, ...odeChapter },
   ],
 };
