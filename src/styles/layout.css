@@ -263,3 +263,68 @@
   color: var(--text-3);
   font-size: 14px;
 }
+
+/* 计时器 */
+button.timer-pill {
+  cursor: pointer;
+  color: var(--text-2);
+}
+button.timer-pill:hover {
+  border-color: var(--mint-line);
+  color: var(--text);
+}
+.timer-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.timer-group .timer-pill {
+  color: var(--text);
+}
+.timer-group.running .timer-pill {
+  border-color: var(--mint-line);
+  color: var(--mint);
+}
+.timer-clock {
+  font-variant-numeric: tabular-nums;
+  min-width: 42px;
+}
+.timer-stop {
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-2);
+  font-size: 13px;
+  cursor: pointer;
+}
+.timer-stop:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+.sync-dot.synced {
+  background: var(--mint);
+  border-color: var(--mint);
+}
+.sync-dot.pending {
+  border-color: var(--warn);
+  background: rgba(240, 179, 107, 0.4);
+}
+.sync-dot.error {
+  border-color: #e08a8a;
+  background: rgba(224, 138, 138, 0.4);
+}
+@media (max-width: 420px) {
+  #topbar {
+    gap: 8px;
+  }
+  .lang-switch button {
+    min-width: 28px;
+    padding: 0 6px;
+  }
+  .timer-pill,
+  .timer-stop {
+    padding: 0 9px;
+  }
+}

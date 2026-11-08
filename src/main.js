@@ -3,6 +3,7 @@ import './styles/base.css';
 import './styles/layout.css';
 import './styles/cards.css';
 import './styles/reader.css';
+import './styles/learning.css';
 
 import { parseRoute } from './router.js';
 import { renderTopbar, setActiveNav } from './views/components/topbar.js';
@@ -35,6 +36,15 @@ function route() {
   window.scrollTo({ top: 0 });
 }
 
+import { recover, formatDuration } from './learning/timer.js';
+import { initSync } from './data/sync.js';
+import { toast } from './views/components/toast.js';
+
+// 上次学习没有点「结束」就关闭了页面：按最后一次心跳补记
+const recovered = recover();
+
 renderTopbar();
 window.addEventListener('hashchange', route);
 route();
+initSync();
+if (recovered) setTimeout(() => toast(`上次学习未结束，已记入 ${formatDuration(recovered)}`, { duration: 5000 }), 600);

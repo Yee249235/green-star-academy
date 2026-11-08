@@ -1,0 +1,10 @@
+rules_version = '2';
+// 只有登录的本人可以读写自己的学习记录；其他人（包括未登录的访客）一律不能访问。
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{uid}/{collection}/{docId} {
+      allow read, write: if request.auth != null && request.auth.uid == uid
+        && collection in ['attempts', 'reads', 'sessions'];
+    }
+  }
+}

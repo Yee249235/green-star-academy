@@ -2,9 +2,14 @@ import { html, mount } from './dom.js';
 import { icons } from './icons.js';
 import { getSubject, getChapter, getPages, hasContent } from '../content/index.js';
 import { getLang, onLangChange, setLastPosition } from '../data/prefs.js';
+import { add, dayKey, subscribe } from '../data/store.js';
+import { cardStats, cardAttempts, readCount } from '../learning/progress.js';
+import { gainPerCorrect, countedToday } from '../learning/stars.js';
 import { href, go } from '../router.js';
-import { renderPage } from './components/pages.js';
+import { renderPage, RESULT_LABEL } from './components/pages.js';
 import { attachFlipper } from './components/flipper.js';
+import { attachDoubleTap } from './components/double-tap.js';
+import { toast } from './components/toast.js';
 import { fitMath } from '../math/fit.js';
 
 export function renderReader(app, route) {
@@ -27,7 +32,7 @@ export function renderReader(app, route) {
         <div class="card empty-chapter">
           <div style="color: var(--mint)">${icons.star(36)}</div>
           <h2 style="margin-top:10px">本章内容正在编写</h2>
-          <p>阶段四起按章节陆续加入知识点、公式卡和例题。</p>
+          <p>知识点、公式卡和例题会陆续加入。</p>
         </div>`,
     );
     return null;
@@ -35,13 +40,14 @@ export function renderReader(app, route) {
 
   const pages = getPages(subject.id, chapter.id);
   let index = Math.min(route.page, pages.length) - 1;
+  const exState = new Map(); // 例题 id → { hint, revealed, feedback }
 
   mount(
     app,
     html`${head}
       ${
         chapter.sample
-          ? html`<div class="sample-banner">示例内容：用于测试翻页和卡片样式，阶段四会替换为正式的数学内容。</div>`
+          ? html`<div class="sample-banner">示例内容：用于测试翻页和卡片样式，正式内容编写后会替换。</div>`
           : ''
       }
       <div class="stage"></div>
@@ -64,13 +70,15 @@ export function renderReader(app, route) {
   const countEl = app.querySelector('.reader-bar-meta .count');
   const segButtons = [...app.querySelectorAll('.segments button')];
 
-  function show(i, dir = 0) {
+  function show(i, dir = 0, { pop = false } = {}) {
     index = Math.max(0, Math.min(pages.length - 1, i));
-    const page = pages[index];
+    const page = { ...pages[index], pop };
+    const scrollY = window.scrollY;
     stage.innerHTML = '';
     const el = document.createElement('div');
     el.className = 'stage-page' + (dir > 0 ? ' anim-next' : dir < 0 ? ' anim-prev' : '');
-    mount(el, renderPage({ subject, chapter, pages, page, lang: getLang() }));
+    const state = page.type === 'exercise' ? exState.get(page.item.id) : null;
+    mount(el, renderPage({ subject, chapter, pages, page, lang: getLang(), state }));
     stage.appendChild(el);
     fitMath(el);
     document.fonts?.ready.then(() => el.isConnected && fitMath(el));
@@ -88,6 +96,7 @@ export function renderReader(app, route) {
     go(href('read', subject.id, chapter.id, index + 1), { replace: true });
     setLastPosition(subject.id, chapter.id, index + 1);
     if (dir !== 0) window.scrollTo({ top: 0 });
+    else window.scrollTo({ top: scrollY });
   }
 
   const next = () => index < pages.length - 1 && show(index + 1, 1);
@@ -102,6 +111,35 @@ export function renderReader(app, route) {
     if (target !== index) show(target, target > index ? 1 : -1);
   });
 
+  function assess(result) {
+    const page = pages[index];
+    if (page.type !== 'exercise') return;
+    const ex = page.item;
+    const card = page.formula;
+    const today = dayKey();
+    const before = cardStats(card.id).stars;
+    const already = countedToday(cardAttempts(card.id), ex.id, today);
+    add('attempts', { cardId: card.id, exerciseId: ex.id, result, day: today });
+    const after = cardStats(card.id).stars;
+
+    let feedback;
+    if (already) {
+      feedback = `已记录「${RESULT_LABEL[result]}」。今天已经做过这道题，本次只计入练习次数。`;
+    } else if (result === 'correct') {
+      const unit = gainPerCorrect(card.exercises.length);
+      feedback =
+        after > before
+          ? `已记录「独立做对」，星星 +${after - before}（本题 +${unit}，每张卡每天最多 +1）。`
+          : `已记录「独立做对」。本卡今天已经加满 1 颗星，或已满 5 颗。`;
+    } else if (result === 'wrong') {
+      feedback = after < before ? `已记录「做错」，星星 −${before - after}。多练几次就能补回来。` : '已记录「做错」。';
+    } else {
+      feedback = '已记录「看提示后做对」：计入练习次数，不加星。';
+    }
+    exState.set(ex.id, { ...(exState.get(ex.id) ?? {}), revealed: true, feedback });
+    show(index, 0, { pop: after > before });
+  }
+
   stage.addEventListener('click', (e) => {
     // 概览页：点击条目跳转
     const jump = e.target.closest('[data-goto]');
@@ -110,24 +148,51 @@ export function renderReader(app, route) {
       if (target >= 0) show(target, 1);
       return;
     }
-    // 例题：展开 / 收起答案
-    const btn = e.target.closest('[data-action="toggle-answer"]');
-    if (!btn) return;
-    const box = btn.nextElementSibling;
-    const open = box.hidden;
-    box.hidden = !open;
-    btn.setAttribute('aria-expanded', String(open));
-    btn.textContent = open ? '收起答案' : '查看答案与解析';
-    if (open) fitMath(box);
+    const page = pages[index];
+    const exId = page.type === 'exercise' ? page.item.id : null;
+    const action = e.target.closest('[data-action]')?.dataset.action;
+    if (action === 'hint' && exId) {
+      exState.set(exId, { ...(exState.get(exId) ?? {}), hint: true });
+      show(index, 0);
+    } else if (action === 'toggle-answer' && exId) {
+      const s = exState.get(exId) ?? {};
+      exState.set(exId, { ...s, revealed: !s.revealed });
+      show(index, 0);
+    }
+    const assessBtn = e.target.closest('[data-assess]');
+    if (assessBtn && !assessBtn.disabled) assess(assessBtn.dataset.assess);
+  });
+
+  // 双击（手机双点）知识点卡 / 公式卡：记一次阅读
+  const detachDoubleTap = attachDoubleTap(stage, (target) => {
+    const card = target.closest('[data-read-target]');
+    if (!card) return;
+    const id = card.dataset.readTarget;
+    add('reads', { targetId: id });
+    const n = readCount(id);
+    const label = card.querySelector('.read-count');
+    if (label) {
+      label.textContent = `已读 ${n} 次`;
+      label.classList.remove('bump');
+      void label.offsetWidth;
+      label.classList.add('bump');
+    }
+    toast(`已记录第 ${n} 次阅读`);
   });
 
   const detachFlipper = attachFlipper(stage, { onPrev: prev, onNext: next });
   const offLang = onLangChange(() => show(index, 0));
+  // 其他设备同步过来新记录时刷新星星
+  const offStore = subscribe((change) => {
+    if (change.source && change.source !== 'local') show(index, 0);
+  });
 
   show(index, 0);
 
   return () => {
     detachFlipper();
+    detachDoubleTap();
     offLang();
+    offStore();
   };
 }
