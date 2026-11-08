@@ -1,14 +1,18 @@
 {
   "name": "green-star-academy",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "check:latex": "node scripts/check-latex.js",
+    "build": "node scripts/check-latex.js && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
     "vite": "^8.3.6"
+  },
+  "dependencies": {
+    "katex": "^0.19.1"
   }
 }

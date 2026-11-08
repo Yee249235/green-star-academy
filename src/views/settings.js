@@ -27,8 +27,16 @@ export function renderSettings(app) {
 
       <div class="card">
         <div class="card-sec" style="margin-top:0">
+          <h3>公式显示</h3>
+          <p>查看分数、积分、矩阵、行列式、多行推导等公式的显示效果。</p>
+          <div style="margin-top:14px"><a class="btn" href="#/math-test">打开公式测试页</a></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-sec" style="margin-top:0">
           <h3>关于</h3>
-          <p>Green Star Academy · 版本 0.2（阶段二：视觉与页面框架）</p>
+          <p>Green Star Academy · 版本 0.3（阶段三：公式渲染系统）</p>
           <ul style="margin-top:8px">
             ${subjects.map((s) => html`<li>${s.name.zh}：${s.textbook}</li>`)}
           </ul>

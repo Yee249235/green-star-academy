@@ -22,6 +22,8 @@ export function parseRoute(hash = location.hash) {
       return { name: 'progress', subjectId: rest[0] };
     case 'settings':
       return { name: 'settings' };
+    case 'math-test':
+      return { name: 'math-test' };
     default:
       return { name: 'home' };
   }

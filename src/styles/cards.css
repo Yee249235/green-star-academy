@@ -83,9 +83,15 @@
   background: var(--formula-bg);
   border: 1px solid var(--border);
   border-left: 3px solid var(--mint);
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-x: contain;
+  overflow: hidden; /* 横向滚动交给内部的 .math-display，整页不会被撑宽 */
+}
+@media (max-width: 560px) {
+  .card {
+    padding: 20px 16px;
+  }
+  .formula-box {
+    padding: 12px 10px;
+  }
 }
 .formula-box.placeholder {
   color: var(--text-3);

@@ -1,0 +1,82 @@
+/* ---------- 公式排版（KaTeX）---------- */
+
+/* 行内公式：比正文略大一点，与中文字号视觉平衡 */
+.katex {
+  font-size: 1.1em;
+  text-rendering: optimizeLegibility;
+}
+
+/* 独立公式 */
+.math-display {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  padding: 6px 2px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+.math-display + .math-display {
+  margin-top: 6px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+}
+.math-display .katex-display {
+  margin: 0;
+}
+.math-display .katex-display > .katex {
+  font-size: 1.24em;
+  padding: 0 4px;
+}
+@media (max-width: 560px) {
+  .math-display .katex-display > .katex {
+    font-size: 1.14em;
+  }
+}
+
+/* 公式框（公式卡里的标准公式） */
+.formula-box .math-display .katex {
+  color: #f4f6f8;
+}
+
+/* 放不下时：右侧渐隐 + 提示可滑动查看（只在公式框内滑动，不翻页） */
+.math-display.is-scrollable {
+  -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent);
+  mask-image: linear-gradient(90deg, #000 85%, transparent);
+}
+.math-display.is-scrollable.at-end {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.scroll-hint {
+  display: block;
+  text-align: right;
+  font-size: 12px;
+  color: var(--text-3);
+  margin-top: 2px;
+}
+
+/* 渲染失败兜底：红框 + 原始 LaTeX，不出现空白或乱码 */
+.math-error {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1px solid #e06c6c;
+  border-radius: 6px;
+  background: rgba(224, 108, 108, 0.1);
+  color: #f2a3a3;
+  font-size: 13px;
+}
+div.math-error {
+  display: block;
+  margin: 8px 0;
+}
+.math-error code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  word-break: break-all;
+}
+
+/* 选中公式时的颜色 */
+.katex ::selection {
+  background: rgba(126, 224, 181, 0.3);
+}

@@ -62,7 +62,7 @@ export function renderTopbar() {
 }
 
 export function setActiveNav(routeName) {
-  const active = routeName === 'read' ? 'toc' : routeName;
+  const active = routeName === 'read' ? 'toc' : routeName === 'math-test' ? 'settings' : routeName;
   document.querySelectorAll('[data-nav]').forEach((a) => {
     if (a.dataset.nav === active) a.setAttribute('aria-current', 'page');
     else a.removeAttribute('aria-current');

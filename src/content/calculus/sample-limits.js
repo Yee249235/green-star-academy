@@ -17,8 +17,11 @@ export const sampleLimits = {
     {
       id: 'calc.limits.sample-a',
       name: { zh: '示例公式卡 A', ja: 'サンプル公式 A', kana: 'サンプルこうしき A' },
-      formulaNote: '公式区：阶段三接入 KaTeX 后，这里显示教材级排版的公式。',
-      conditions: ['适用条件写在这里，例如：0/0 型未定式。', '每条条件单独一行，方便快速扫读。'],
+      formula: String.raw`\lim_{x\to a}\frac{f(x)}{g(x)}=\lim_{x\to a}\frac{f'(x)}{g'(x)}`,
+      conditions: [
+        String.raw`$\displaystyle\lim_{x\to a}f(x)=\lim_{x\to a}g(x)=0$（$\dfrac{0}{0}$ 型）或二者都发散到 $\pm\infty$。`,
+        String.raw`右边的极限 $\displaystyle\lim_{x\to a}\frac{f'(x)}{g'(x)}$ 存在（或为 $\pm\infty$）。`,
+      ],
       scenarios: ['使用场景：看到什么样的题目时想到这个公式。'],
       steps: ['第一步：确认题型与条件。', '第二步：套用公式。', '第三步：化简并得出结果。'],
       pitfalls: ['易错点：忘记确认适用条件。'],
@@ -27,9 +30,9 @@ export const sampleLimits = {
           id: 'calc.limits.sample-a.ex1',
           difficulty: '中',
           question: {
-            zh: '【示例题干·中文】这里显示题目的中文版本。',
-            ja: '【例題・日本語】ここに問題文の日本語版を表示します。',
-            en: '[Sample problem · English] The English version of the problem appears here.',
+            zh: String.raw`【示例】求极限 $\displaystyle\lim_{x\to 0}\frac{e^x-1-x}{x^2}$。`,
+            ja: String.raw`【例】極限 $\displaystyle\lim_{x\to 0}\frac{e^x-1-x}{x^2}$ を求めよ。`,
+            en: String.raw`[Sample] Evaluate $\displaystyle\lim_{x\to 0}\frac{e^x-1-x}{x^2}$.`,
           },
         },
         {
@@ -46,7 +49,7 @@ export const sampleLimits = {
     {
       id: 'calc.limits.sample-b',
       name: { zh: '示例公式卡 B', ja: 'サンプル公式 B', kana: 'サンプルこうしき B' },
-      formulaNote: '公式区：阶段三接入 KaTeX。',
+      formula: String.raw`\lim_{x\to 0}\frac{\sin x}{x}=1`,
       conditions: ['示例适用条件。'],
       scenarios: ['示例使用场景。'],
       steps: ['示例计算步骤。'],

@@ -5,6 +5,7 @@ import { getLang, onLangChange, setLastPosition } from '../data/prefs.js';
 import { href, go } from '../router.js';
 import { renderPage } from './components/pages.js';
 import { attachFlipper } from './components/flipper.js';
+import { fitMath } from '../math/fit.js';
 
 export function renderReader(app, route) {
   const subject = getSubject(route.subjectId);
@@ -71,6 +72,8 @@ export function renderReader(app, route) {
     el.className = 'stage-page' + (dir > 0 ? ' anim-next' : dir < 0 ? ' anim-prev' : '');
     mount(el, renderPage({ subject, chapter, pages, page, lang: getLang() }));
     stage.appendChild(el);
+    fitMath(el);
+    document.fonts?.ready.then(() => el.isConnected && fitMath(el));
 
     prevBtn.disabled = index === 0;
     nextBtn.disabled = index === pages.length - 1;

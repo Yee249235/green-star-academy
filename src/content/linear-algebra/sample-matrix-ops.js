@@ -14,7 +14,7 @@ export const sampleMatrixOps = {
     {
       id: 'la.matrix-operations.sample-a',
       name: { zh: '示例公式卡', ja: 'サンプル公式', kana: 'サンプルこうしき' },
-      formulaNote: '公式区：阶段三接入 KaTeX 后显示矩阵。',
+      formula: String.raw`\begin{aligned}&\begin{pmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{pmatrix}+\begin{pmatrix}b_{11}&b_{12}\\b_{21}&b_{22}\end{pmatrix}\\[4pt]&\qquad=\begin{pmatrix}a_{11}+b_{11}&a_{12}+b_{12}\\a_{21}+b_{21}&a_{22}+b_{22}\end{pmatrix}\end{aligned}`,
       conditions: ['示例适用条件：两个矩阵的型相同。'],
       scenarios: ['示例使用场景。'],
       steps: ['示例计算步骤。'],

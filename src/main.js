@@ -11,8 +11,10 @@ import { renderToc } from './views/toc.js';
 import { renderReader } from './views/reader.js';
 import { renderProgress } from './views/progress.js';
 import { renderSettings } from './views/settings.js';
+import { renderMathTest } from './views/math-test.js';
 
 const VIEWS = {
+  'math-test': renderMathTest,
   home: renderHome,
   toc: renderToc,
   read: renderReader,
