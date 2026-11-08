@@ -19,7 +19,7 @@
 3. 「设置 → 已获授权的网域」里点「添加网域」，填 `yee249235.github.io`。
 
 ## 4. 创建数据库并设置规则
-1. 左侧「构建 → Firestore Database」→「创建数据库」。
+1. 打开 Firestore 页面，再点「创建数据库」。新版控制台的菜单名称常有变化，最稳的方法是直接在浏览器打开 `https://console.firebase.google.com/project/你的项目ID/firestore`；项目 ID 可以在「项目设置」里看到。也可以在控制台顶部的搜索框输入 `Firestore`，或在左侧「数据库和存储」（Databases & Storage）分类里找。手机上左侧菜单默认收起，要先点左上角的 ☰。
 2. 位置选 `asia-northeast1`（东京），以「生产模式」创建。
 3. 打开「规则」标签，把仓库里 `firestore.rules` 的内容整段粘贴进去，点「发布」。
    规则的意思是：只有登录的本人能读写自己的记录，其他人都不能访问。
