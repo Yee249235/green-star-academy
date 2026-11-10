@@ -13,6 +13,8 @@ import { renderReader } from './views/reader.js';
 import { renderProgress } from './views/progress.js';
 import { renderSettings } from './views/settings.js';
 import { renderMathTest } from './views/math-test.js';
+import { renderExams } from './views/exams.js';
+import { renderExamReader } from './views/exam-reader.js';
 
 const VIEWS = {
   'math-test': renderMathTest,
@@ -21,6 +23,8 @@ const VIEWS = {
   read: renderReader,
   progress: renderProgress,
   settings: renderSettings,
+  exams: renderExams,
+  exam: renderExamReader,
 };
 
 const app = document.getElementById('app');
@@ -30,7 +34,7 @@ function route() {
   const r = parseRoute();
   cleanup?.();
   cleanup = null;
-  document.body.classList.toggle('in-reader', r.name === 'read');
+  document.body.classList.toggle('in-reader', r.name === 'read' || r.name === 'exam');
   setActiveNav(r.name);
   setSubject(r.subjectId ?? null);
   cleanup = VIEWS[r.name](app, r) ?? null;

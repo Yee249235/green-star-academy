@@ -51,3 +51,10 @@ npm run build    # 构建到 dist/
 
 GitHub Actions 发布前会依次运行以上三项，任何一项失败都不会发布。
 新增例题后运行 `node scripts/check-content.js --update` 登记 ID。
+
+## 過去問演習
+
+首页两本书下方的「過去問演習」模块：题目与解答为日语，提示、解析、举一反三为中文。
+
+- 题库以 AES-GCM 加密后保存在 `src/exams/data.enc.json`，首次打开需输入口令，之后本机自动解锁。
+- 题目明文、原始照片与加密脚本只保存在私有仓库中，公开仓库不包含任何明文。

@@ -65,3 +65,22 @@ export function pageKey(subjectId, chapterId, page) {
   else k = page.item.id + (page.part ? `#${page.part}` : '');
   return `${subjectId}/${chapterId}/${k}`;
 }
+
+/** 公式卡所在的位置（用于从过去问跳转到公式卡）：{ subjectId, chapterId, page }，page 从 1 开始 */
+let cardLocations = null;
+export function findCardPage(cardId) {
+  if (!cardLocations) {
+    cardLocations = new Map();
+    for (const s of subjects) {
+      for (const c of s.chapters) {
+        if (c.sample || !hasContent(c)) continue;
+        getPages(s.id, c.id).forEach((p, i) => {
+          if (p.type === 'formula' && !cardLocations.has(p.item.id)) {
+            cardLocations.set(p.item.id, { subjectId: s.id, chapterId: c.id, page: i + 1, card: p.item });
+          }
+        });
+      }
+    }
+  }
+  return cardLocations.get(cardId) ?? null;
+}

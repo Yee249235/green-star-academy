@@ -3,6 +3,7 @@ import { subjects } from '../content/index.js';
 import { exportJson, importJson, lastBackupAt } from '../data/backup.js';
 import { isConfigured, getSyncStatus, onSyncStatus, signIn, signOutNow } from '../data/sync.js';
 import { all } from '../data/store.js';
+import { hasStoredKey, lock as lockExams } from '../exams/vault.js';
 import { toast, dialog } from './components/toast.js';
 
 function syncCard() {
@@ -52,6 +53,15 @@ export function renderSettings(app) {
 
       <div class="card">
         <div class="card-sec" style="margin-top:0">
+          <h3>過去問题库</h3>
+          <p>题库加密保存，每台设备输入一次口令后自动解锁。</p>
+          <p class="muted" style="margin-top:6px">本机状态：${hasStoredKey() ? '已解锁' : '未解锁'}</p>
+          ${hasStoredKey() ? html`<div style="margin-top:14px"><button class="btn" type="button" data-act="exam-lock">在本机上锁</button></div>` : ''}
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-sec" style="margin-top:0">
           <h3>使用说明</h3>
           <ul>
             <li>翻页：手机左右滑动；电脑点两侧圆形按钮或按键盘 ← →。</li>
@@ -96,6 +106,11 @@ export function renderSettings(app) {
       exportJson();
       toast('已导出备份文件');
       draw();
+    } else if (act === 'exam-lock') {
+      if (await dialog({ title: '在本机上锁？', body: '之后打开過去問需要重新输入口令。学习记录不受影响。', actions: [{ label: '取消', value: false }, { label: '上锁', value: true, primary: true }] })) {
+        lockExams();
+        draw();
+      }
     } else if (act === 'signin') {
       signIn().catch((err) => toast('登录失败：' + (err.code ?? err.message)));
     } else if (act === 'signout') {

@@ -61,7 +61,16 @@ export function renderHome(app) {
           : ''
       }
 
-      <div class="subject-grid" style="margin-top:24px">${subjects.map(bookCard)}</div>`,
+      <div class="subject-grid" style="margin-top:24px">${subjects.map(bookCard)}</div>
+
+      <a class="subject-card book-card exam-entry" href="${href('exams')}">
+        <div class="book-title" lang="ja">過去問演習</div>
+        <div class="book-sub"><span>真题练习</span><span>题目与解答为日语</span></div>
+        <div class="book-time">
+          <div><span class="label">累计学习</span><span class="value" data-time="exam-total">${formatDuration(subjectMs('exam'))}</span></div>
+          <div><span class="label">今日</span><span class="value" data-time="exam-today">${formatDuration(subjectMs('exam', { today: true }))}</span></div>
+        </div>
+      </a>`,
   );
 
   // 计时中，首页时长每 30 秒刷新
@@ -72,7 +81,7 @@ export function renderHome(app) {
     };
     set('[data-stat="today"]', formatDuration(todayMs()));
     set('[data-stat="total"]', formatDuration(totalMs()));
-    for (const s of subjects) {
+    for (const s of [...subjects, { id: 'exam' }]) {
       set(`[data-time="${s.id}-total"]`, formatDuration(subjectMs(s.id)));
       set(`[data-time="${s.id}-today"]`, formatDuration(subjectMs(s.id, { today: true })));
     }

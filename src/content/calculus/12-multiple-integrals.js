@@ -186,12 +186,41 @@ const cards = [
       },
     ],
   },
+  {
+    id: 'calc.mult.surface-area',
+    name: { zh: '曲面面积', ja: '曲面積', kana: 'きょくめんせき' },
+    knowledge: ['calc.mult.k.double'],
+    formula: R`S=\iint_D\sqrt{1+f_x^{\,2}+f_y^{\,2}}\,dx\,dy`,
+    conditions: [R`曲面 $z=f(x,y)$，$(x,y)\in D$；$f_x$、$f_y$ 连续。`],
+    scenarios: [R`求曲面 $z=f(x,y)$ 在区域 $D$ 上方部分的面积；被积函数只含 $x^2+y^2$ 时配合极坐标。`],
+    steps: [R`求 $f_x$、$f_y$。`, R`写出 $\sqrt{1+f_x^2+f_y^2}$。`, R`按区域形状选坐标（圆形区域用极坐标，别忘雅可比 $r$）。`],
+    pitfalls: [R`$\displaystyle\int\sqrt{1+kr^2}\,r\,dr=\frac{(1+kr^2)^{3/2}}{3k}$ 经常用到。`, R`圆心不在原点时，极坐标要以圆心为中心。`],
+    exercises: [
+      {
+        id: 'calc.mult.surface-area.ex1',
+        difficulty: '中',
+        question: {
+          zh: R`求抛物面 $z=x^2+y^2$ 在圆 $x^2+y^2\le1$ 上方部分的面积。`,
+          ja: R`放物面 $z=x^2+y^2$ のうち，円 $x^2+y^2\le1$ の上にある部分の曲面積を求めよ。`,
+          en: R`Find the area of the part of the paraboloid $z=x^2+y^2$ above the disk $x^2+y^2\le1$.`,
+        },
+        answer: R`\frac{\pi}{6}\left(5\sqrt5-1\right)`,
+        idea: R`$f_x=2x$，$f_y=2y$，被积函数 $\sqrt{1+4(x^2+y^2)}$，换极坐标。`,
+        solution: [
+          { math: R`S=\iint_D\sqrt{1+4x^2+4y^2}\,dx\,dy=\int_0^{2\pi}\!\!\int_0^1\sqrt{1+4r^2}\,r\,dr\,d\theta` },
+          { math: R`=2\pi\left[\frac{(1+4r^2)^{3/2}}{12}\right]_0^1=\frac{\pi}{6}\left(5\sqrt5-1\right)` },
+        ],
+        pitfalls: [R`极坐标的 $r$（雅可比）不能漏。`],
+        verify: { type: 'equal', lhs: 'integrate(integrate(sqrt(1+4*r**2)*r, (r,0,1)), (theta,0,2*pi))', rhs: 'pi*(5*sqrt(5)-1)/6' },
+      },
+    ],
+  },
 ];
 
 export const multipleIntegralsChapter = {
-  overview: '二重积分化为累次积分（矩形区域、纵线型 / 横线型区域）、交换积分顺序、三重积分以及用重积分求体积。极坐标等变量变换在第 13 章。',
+  overview: '二重积分化为累次积分（矩形区域、纵线型 / 横线型区域）、交换积分顺序、三重积分以及用重积分求体积与曲面面积。极坐标等变量变换在第 13 章。',
   sections: [
     { title: '二重积分', knowledge: [K.double], formulas: cards.slice(0, 3) },
-    { title: '三重积分与体积', knowledge: [K.triple], formulas: cards.slice(3) },
+    { title: '三重积分、体积与曲面面积', knowledge: [K.triple], formulas: cards.slice(3) },
   ],
 };
